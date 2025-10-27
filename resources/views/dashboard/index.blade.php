@@ -1,12 +1,19 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Główna strona dashboardu</title>
-</head>
-<body>
-    Hej to główna strona dashboardu!
+<x-layout>
+    <h1>Lista wszystkich uczniów</h1>
 
-    <a href="/">Powrót do strony głównej</a>
-</body>
-</html>
+  
+    <ul>
+        @foreach ($students as $student)
+            <li>
+               <x-card href="{{ route('dashboard.show', $student->id) }}">
+                <div>
+                    <h3>{{ $student->name }} {{ $student->surname }}</h3>
+                </div>
+               </x-card>
+            </li>
+        @endforeach
+    </ul>
+
+    {{ $students->onEachSide(5)->links() }}
+
+</x-layout>

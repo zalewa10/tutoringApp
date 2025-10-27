@@ -1,0 +1,16 @@
+1. Pomoce do poleceń sqlite
+
+php artisan tinker
+use App\Models\[nazwa klasy]
+np. Students
+
+Students::create(['Name'=>'Krzysztof','Age'=>22,'bio'=>'bla blah blah']) -> utwórz rekord
+Students::all() -> pokaz wszystko
+Students::find(1) -> pokaz o id=1
+
+php artisan migrate:fresh --seed -> zrób od początku bazę i wywołuj z seed funkcje run która uzupełni tabele danymi
+
+
+php artisan make:controller StudentsController
+
+php artisan make:model Name -mfs
