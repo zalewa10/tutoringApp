@@ -24,8 +24,7 @@ class StudentFactory extends Factory
             'tel' => fake()->phoneNumber(),
             'rate' => fake()->randomFloat(2, 0, 100),
             'active' => fake()->boolean(),
-            // ensure user_id is set (creates a user if none exists)
-            'user_id' => User::factory(),
+            // user_id intentionally omitted — set by seeder or caller
         ];
     }
 }
