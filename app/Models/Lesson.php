@@ -5,6 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Lesson
+ *
+ * @property int $id
+ * @property int|null $student_id
+ * @property-read \App\Models\Student|null $student
+ * @property-read \App\Models\Payment|null $payment
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo student()
+ * @method \Illuminate\Database\Eloquent\Relations\HasOne payment()
+ */
 class Lesson extends Model
 {
     use HasFactory;

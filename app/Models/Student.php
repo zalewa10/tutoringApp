@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // added
 use App\Models\Lesson; // added
 
+/**
+ * Class Student
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property-read \App\Models\User|null $user
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo user()
+ */
 class Student extends Model
 {
     use HasFactory;

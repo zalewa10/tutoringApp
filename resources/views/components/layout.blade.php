@@ -1,5 +1,7 @@
 <html lang="en">
+
 <head>
+    <meta name="robots" content="noindex, nofollow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student dashboard</title>
@@ -8,6 +10,7 @@
     <!-- FullCalendar (single global bundle). Keep only this to avoid plugin conflicts. -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
 </head>
+
 <body>
     @if (session('success'))
         <div class="bg-green-500 text-white p-4 mb-4 rounded container mx-auto mt-6">
@@ -25,6 +28,7 @@
                     <a href="{{ route('dashboard.index') }}" class="text-gray-700 hover:text-red-600">Kalendarz</a>
                     <a href="{{ route('students.index') }}" class="text-gray-700 hover:text-red-600">Uczniowie</a>
                     <a href="{{ route('finance.index') }}" class="text-gray-700 hover:text-red-600">Finanse</a>
+                    <a href="{{ route('history.index') }}" class="text-gray-700 hover:text-red-600">Historia</a>
                 @else
                     <a href="{{ route('show.login') }}" class="text-gray-700 hover:text-red-600">Login</a>
                     <a href="{{ route('show.register') }}" class="text-gray-700 hover:text-red-600">Register</a>
@@ -49,6 +53,7 @@
         </div>
     </main>
 
-    
+
 </body>
+
 </html>

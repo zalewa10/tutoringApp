@@ -1,37 +1,40 @@
 <x-layout>
-<form action="{{ route('login') }}" method="POST">
-  @csrf
+    <div class="max-w-sm mx-auto mt-16 bg-white p-8 rounded-lg shadow">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Zaloguj się</h2>
 
-  <h2>Zaloguj się</h2>
+        <form action="{{ route('login') }}" method="POST" class="space-y-4">
+            @csrf
 
-  <label for="email">Email:</label>
-  <input 
-    type="email"
-    name="email"
-    required
-    value="{{ old('email') }}"
-  >
+            <div>
+                <label class="text-sm text-gray-700">Email</label>
+                <input type="email" name="email" required value="{{ old('email') }}"
+                    class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            </div>
 
-  <label for="password">Hasło:</label>
-  <input 
-    type="password"
-    name="password"
-    required
-  >
+            <div>
+                <label class="text-sm text-gray-700">Hasło</label>
+                <input type="password" name="password" required
+                    class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            </div>
 
-  <button type="submit" class="btn mt-4">Zaloguj się</button>
+            <button type="submit" class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded">
+                Zaloguj się
+            </button>
 
-  <p class="mt-4">
-    Nie masz konta? 
-    <a href="{{ route('show.register') }}" class="text-blue-500 underline">Zarejestruj się</a>
+            <p class="text-sm text-center text-gray-600">
+                Nie masz konta?
+                <a href="{{ route('show.register') }}" class="text-indigo-600 hover:underline">Zarejestruj się</a>
+            </p>
 
-  <!-- validation errors -->
-   @if ($errors->any())
-  <ul class="px-4 py-2 bg-red-100">
-    @foreach ($errors->all() as $error)
-      <li class="my-2 text-red-500">{{ $error }}</li>
-    @endforeach
-  </ul>
-  @endif
-</form>
+            @if ($errors->any())
+                <div class="mt-2 p-3 bg-red-50 border border-red-200 rounded text-sm text-red-700">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </form>
+    </div>
 </x-layout>

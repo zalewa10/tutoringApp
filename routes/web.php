@@ -7,6 +7,7 @@ use App\Http\Controllers\LessonController; // added
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\HistoryController;
 
 Route::get('/', function () {
     return redirect()->route('show.login');
@@ -14,16 +15,16 @@ Route::get('/', function () {
 
 
 // Strony logowania i rejestrowania
-Route::get('/register', [AuthController::class,'showRegister'])->name('show.register');
-Route::get('/login', [AuthController::class,'showLogin'])->name('show.login');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('show.register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
 
 // Obsługa formularzy logowania i rejestrowania
-Route::post('/register', [AuthController::class,'register'])->name('register');
-Route::post('/login', [AuthController::class,'login'])->name('login');
-Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::middleware('auth')->controller(StudentController::class)->group(function(){
+Route::middleware('auth')->controller(StudentController::class)->group(function () {
     // Przekierowania
     Route::get('/dashboard', 'index')->name('dashboard.index');
     Route::get('dashboard/create', 'create')->name('dashboard.create');
@@ -32,10 +33,10 @@ Route::middleware('auth')->controller(StudentController::class)->group(function(
     Route::put('/dashboard/{id}', 'update')->name('dashboard.update');
     Route::post('/dashboard', 'store')->name('dashboard.store');
     Route::delete('/dashboard/{id}', 'delete')->name('dashboard.delete');
-    
+
     //listing uczniów
     Route::get('/students', [StudentsController::class, 'index'])->name('students.index');
-    
+
     // lessons
     Route::post('/lessons', [LessonController::class, 'store'])->name('lessons.store');
 
@@ -51,4 +52,9 @@ Route::middleware('auth')->controller(StudentController::class)->group(function(
 
     // finance
     Route::get('/finance', [FinanceController::class, 'index'])->name('finance.index');
+
+    // history
+    Route::get('/history', [HistoryController::class, 'index'])
+        ->name('history.index')
+        ->middleware('auth');
 });
