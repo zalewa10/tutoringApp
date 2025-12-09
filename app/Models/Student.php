@@ -19,7 +19,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'surname', 'tel', 'rate', 'active', 'user_id'];
+    protected $fillable = ['name', 'surname', 'tel', 'rate', 'active', 'color', 'user_id'];
 
     protected $casts = [
         'active' => 'boolean',

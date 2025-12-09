@@ -12,43 +12,18 @@
 </head>
 
 <body>
-    @if (session('success'))
-        <div class="bg-green-500 text-white p-4 mb-4 rounded container mx-auto mt-6">
-            {{ session('success') }}
-        </div>
-    @endif
 
-    <!-- nicer header / navbar -->
-    <header class="bg-white shadow">
-        <div class="container mx-auto px-6 py-4 flex items-center gap-6">
-            <a href="{{ route('dashboard.index') }}" class="text-2xl font-extrabold text-red-600">Tutoring</a>
 
-            <nav class="ml-6 flex items-center gap-4 text-sm">
-                @auth
-                    <a href="{{ route('dashboard.index') }}" class="text-gray-700 hover:text-red-600">Kalendarz</a>
-                    <a href="{{ route('students.index') }}" class="text-gray-700 hover:text-red-600">Uczniowie</a>
-                    <a href="{{ route('finance.index') }}" class="text-gray-700 hover:text-red-600">Finanse</a>
-                    <a href="{{ route('history.index') }}" class="text-gray-700 hover:text-red-600">Historia</a>
-                @else
-                    <a href="{{ route('show.login') }}" class="text-gray-700 hover:text-red-600">Login</a>
-                    <a href="{{ route('show.register') }}" class="text-gray-700 hover:text-red-600">Register</a>
-                @endauth
-            </nav>
+    <x-navbar />
 
-            <div class="ml-auto flex items-center gap-4">
-                @auth
-                    <span class="text-sm text-gray-600">Witaj, {{ auth()->user()->name }}</span>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button class="btn px-3 py-1">Wyloguj</button>
-                    </form>
-                @endauth
-            </div>
-        </div>
-    </header>
 
-    <main class="bg-gray-50 min-h-screen py-8">
-        <div class="container mx-auto px-6">
+    <main class="bg-gray-50 min-h-screen pl-[200px]">
+        <div class="container mx-auto">
+            @if (session('success'))
+                <div class="bg-green-500 text-white p-4 mb-4 rounded-xl container w-max fixed bottom-0 right-4">
+                    {{ session('success') }}
+                </div>
+            @endif
             {{ $slot }}
         </div>
     </main>

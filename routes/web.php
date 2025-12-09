@@ -39,6 +39,10 @@ Route::middleware('auth')->controller(StudentController::class)->group(function 
 
     // lessons
     Route::post('/lessons', [LessonController::class, 'store'])->name('lessons.store');
+    Route::get('/lessons/{id}', [LessonController::class, 'show'])->name('lessons.show');
+    Route::get('/lessons/{id}/edit', [LessonController::class, 'edit'])->name('lessons.edit');
+    Route::put('/lessons/{id}', [LessonController::class, 'update'])->name('lessons.update');
+    Route::delete('/lessons/{id}', [LessonController::class, 'destroy'])->name('lessons.destroy');
 
     // AJAX endpoints for calendar interactions
     Route::post('/lessons/ajax', [LessonController::class, 'ajaxStore'])->name('lessons.ajaxStore');

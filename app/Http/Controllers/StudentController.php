@@ -42,17 +42,16 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
-             'name'=>'required|string|max:255',
-             'surname'=>'required|string|max:255',
-             'tel'=>'nullable|string|max:50',
-             'rate'=>'required|numeric|min:0',
-         ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'tel' => 'nullable|string|max:50',
+            'rate' => 'required|numeric|min:0',
+        ]);
 
-         auth()->user()->students()->create($validated);
+        auth()->user()->students()->create($validated);
 
-         return redirect()->route('dashboard.index')->with('success', 'Utworzono nowego ucznia!');
-
+        return redirect()->route('dashboard.index')->with('success', 'Utworzono nowego ucznia!');
     }
 
     /**
@@ -60,10 +59,10 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-         $user = auth()->user();
-         $student = $user->students()->with('lessons')->findOrFail($id);
-         $lessons = $student->lessons()->orderBy('start', 'desc')->get();
-         return view('dashboard.student', ['student' => $student, 'lessons' => $lessons]);
+        $user = auth()->user();
+        $student = $user->students()->with('lessons')->findOrFail($id);
+        $lessons = $student->lessons()->orderBy('start', 'desc')->get();
+        return view('dashboard.student', ['student' => $student, 'lessons' => $lessons]);
     }
 
     /**
@@ -82,11 +81,12 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name'=>'required|string|max:255',
-            'surname'=>'required|string|max:255',
-            'tel'=>'nullable|string|max:50',
-            'rate'=>'required|numeric|min:0',
-            'active'=>'nullable|boolean',
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'tel' => 'nullable|string|max:50',
+            'rate' => 'required|numeric|min:0',
+            'color' => 'nullable|string|regex:/^#[0-9a-fA-F]{6}$/',
+            'active' => 'nullable|boolean',
         ]);
 
         $user = auth()->user();
@@ -103,7 +103,8 @@ class StudentController extends Controller
     {
         //
     }
-    public function delete($id){
+    public function delete($id)
+    {
         $user = auth()->user();
         $student = $user->students()->findOrFail($id);
         $student->delete();

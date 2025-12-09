@@ -23,12 +23,20 @@ class LessonController extends Controller
         // ensure student belongs to user
         $student = Student::where('id', $validated['student_id'])->where('user_id', auth()->id())->firstOrFail();
 
-        $student->lessons()->create([
+        $lesson = $student->lessons()->create([
             'title' => $validated['title'] ?? 'Lekcja',
             'user_id' => auth()->id(),
             'start' => $validated['start'],
             'end' => $validated['end'] ?? null,
             'notes' => $validated['notes'] ?? null,
+        ]);
+
+        // Automatically create payment with student's rate
+        $lesson->payment()->create([
+            'user_id' => auth()->id(),
+            'amount' => $student->rate,
+            'status' => 'awaiting',
+            'notes' => null,
         ]);
 
         return redirect()->back()->with('success', 'Lekcja dodana.');
@@ -86,6 +94,14 @@ class LessonController extends Controller
             'notes' => $validated['notes'] ?? null,
         ]);
 
+        // Automatically create payment with student's rate
+        $lesson->payment()->create([
+            'user_id' => auth()->id(),
+            'amount' => $student->rate,
+            'status' => 'awaiting',
+            'notes' => null,
+        ]);
+
         return response()->json([
             'success' => true,
             'lesson' => [
@@ -138,5 +154,62 @@ class LessonController extends Controller
         $lesson->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    // Show lesson details (for modal preview or dedicated page)
+    public function show($id)
+    {
+        $lesson = Lesson::where('id', $id)->where('user_id', auth()->id())->with('student', 'payment')->firstOrFail();
+
+        return view('lessons.show', ['lesson' => $lesson]);
+    }
+
+    // Show edit form for lesson
+    public function edit($id)
+    {
+        $lesson = Lesson::where('id', $id)->where('user_id', auth()->id())->with('student')->firstOrFail();
+        $allStudents = Student::where('user_id', auth()->id())->orderBy('name')->get();
+
+        return view('lessons.edit', ['lesson' => $lesson, 'allStudents' => $allStudents]);
+    }
+
+    // Update lesson
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'title' => 'nullable|string|max:255',
+            'start' => 'required|date',
+            'end' => 'nullable|date|after_or_equal:start',
+            'notes' => 'nullable|string',
+        ]);
+
+        $lesson = Lesson::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+        // Ensure student belongs to user
+        $student = Student::where('id', $validated['student_id'])->where('user_id', auth()->id())->firstOrFail();
+
+        $start = $this->normalizeToAppTimezone($validated['start']);
+        $end = $this->normalizeToAppTimezone($validated['end'] ?? null);
+
+        $lesson->update([
+            'student_id' => $validated['student_id'],
+            'title' => $validated['title'] ?? 'Lekcja',
+            'start' => $start,
+            'end' => $end,
+            'notes' => $validated['notes'],
+        ]);
+
+        return redirect()->route('dashboard.show', $lesson->student_id)->with('success', 'Lekcja zaktualizowana.');
+    }
+
+    // Delete lesson
+    public function destroy($id)
+    {
+        $lesson = Lesson::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $student_id = $lesson->student_id;
+        $lesson->delete();
+
+        return redirect()->route('dashboard.show', $student_id)->with('success', 'Lekcja usunięta.');
     }
 }
