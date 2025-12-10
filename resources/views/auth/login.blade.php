@@ -1,6 +1,6 @@
 <x-layout>
     <div class="max-w-sm mx-auto mt-16 bg-white p-8 rounded-lg shadow">
-        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Zaloguj się</h2>
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Zaloguj sięę</h2>
 
         <form action="{{ route('login') }}" method="POST" class="space-y-4">
             @csrf
