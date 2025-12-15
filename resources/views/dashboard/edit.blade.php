@@ -11,13 +11,13 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Imię *</label>
                         <input type="text" id="name" name="name" value="{{ $student->name }}" required
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nazwisko *</label>
                         <input type="text" id="surname" name="surname" value="{{ $student->surname }}" required
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
                 </div>
 
@@ -25,14 +25,14 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Telefon</label>
                         <input type="tel" id="tel" name="tel" value="{{ $student->tel }}"
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Stawka za godzinę *</label>
                         <input type="number" id="rate" name="rate" value="{{ $student->rate }}" step="0.01"
                             required
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" id="active" name="active" value="1"
                                 @checked($student->active)
-                                class="w-5 h-5 rounded border-gray-300 focus:ring-indigo-400">
+                                class="w-5 h-5 rounded border-gray-300 focus:ring-blue-400">
                             <span class="text-gray-700">Uczestnik aktywny</span>
                         </label>
                     </div>
@@ -62,7 +62,7 @@
 
                 <div class="flex gap-3 pt-6 border-t">
                     <button type="submit"
-                        class="flex-1 px-6 py-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 font-medium">
+                        class="flex-1 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 font-medium">
                         Zapisz zmiany
                     </button>
                     <a href="{{ route('dashboard.show', $student->id) }}"

@@ -11,7 +11,7 @@
                 </div>
                 <div class="flex gap-2">
                     <a href="{{ route('lessons.edit', $lesson->id) }}"
-                        class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                         Edytuj
                     </a>
                     <a href="{{ route('dashboard.show', $lesson->student_id) }}"

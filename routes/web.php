@@ -52,12 +52,10 @@ Route::middleware('auth')->controller(StudentController::class)->group(function 
     // payments
     Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
     Route::post('/payments/{id}/mark-paid', [PaymentController::class, 'markPaid'])->name('payments.markPaid');
+    Route::post('/payments/bulk-mark-paid', [PaymentController::class, 'bulkMarkPaid'])->name('payments.bulkMarkPaid');
     Route::put('/payments/{id}/status', [PaymentController::class, 'updateStatus'])->name('payments.updateStatus');
 
-    // finance
-    Route::get('/finance', [FinanceController::class, 'index'])->name('finance.index');
-
-    // history
+    // history (combined with finance)
     Route::get('/history', [HistoryController::class, 'index'])
         ->name('history.index')
         ->middleware('auth');

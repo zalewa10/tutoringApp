@@ -13,7 +13,7 @@ class PaymentController extends Controller
         $validated = $request->validate([
             'lesson_id' => 'required|exists:lessons,id',
             'amount' => 'required|numeric|min:0',
-            'status' => 'required|in:awaiting,paid,overdue',
+            'status' => 'required|in:oczekuje,zapłacone',
             'notes' => 'nullable|string',
         ]);
 
@@ -26,7 +26,7 @@ class PaymentController extends Controller
             [
                 'amount' => $validated['amount'],
                 'status' => $validated['status'],
-                'paid_at' => $validated['status'] === 'paid' ? now() : null,
+                'paid_at' => $validated['status'] === 'zapłacone' ? now() : null,
                 'notes' => $validated['notes'] ?? null,
             ]
         );
@@ -37,19 +37,19 @@ class PaymentController extends Controller
     public function markPaid($id)
     {
         $payment = Payment::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
-        $payment->update(['status' => 'paid', 'paid_at' => now()]);
+        $payment->update(['status' => 'zapłacone', 'paid_at' => now()]);
         return redirect()->back()->with('success', 'Oznaczono jako zapłacone.');
     }
 
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
-            'status' => 'required|in:awaiting,paid,overdue',
+            'status' => 'required|in:oczekuje,zapłacone',
         ]);
 
         $payment = Payment::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         $data = ['status' => $validated['status']];
-        if ($validated['status'] === 'paid') {
+        if ($validated['status'] === 'zapłacone') {
             $data['paid_at'] = now();
         } else {
             $data['paid_at'] = null;
@@ -57,5 +57,19 @@ class PaymentController extends Controller
         $payment->update($data);
 
         return redirect()->back()->with('success', 'Status płatności zaktualizowany.');
+    }
+
+    public function bulkMarkPaid(Request $request)
+    {
+        $validated = $request->validate([
+            'payment_ids' => 'required|array',
+            'payment_ids.*' => 'exists:payments,id',
+        ]);
+
+        $count = Payment::whereIn('id', $validated['payment_ids'])
+                       ->where('user_id', auth()->id())
+                       ->update(['status' => 'zapłacone', 'paid_at' => now()]);
+
+        return redirect()->back()->with('success', "Oznaczono {$count} płatności jako zapłacone.");
     }
 }

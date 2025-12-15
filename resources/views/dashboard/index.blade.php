@@ -1,11 +1,11 @@
 <x-layout>
-    <div class="h-14 p-4 bg-white border-b border-gray-200 flex items-center">
+    <div class="h-16 p-4 bg-white border-b border-gray-200 flex items-center">
         <h1>Kalendarz zajęć</h1>
     </div>
 
     <div class="p-4">
-        <div class="bg-white rounded-xl shadow p-6">
-            <div id='calendar'></div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6" style="box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+            <div id='calendar' class="fc-custom"></div>
         </div>
     </div>
 
@@ -132,7 +132,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Uczeń *</label>
                     <select id="editStudentSelect" name="student_id" required
-                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <option value="">— wybierz ucznia —</option>
                         @foreach ($allStudents ?? collect() as $s)
                             <option value="{{ $s->id }}">{{ $s->name }} {{ $s->surname }}</option>
@@ -143,32 +143,32 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Tytuł (opcjonalny)</label>
                     <input type="text" id="editTitle" name="title" placeholder="Np. Matematyka - Równania"
-                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Start *</label>
                         <input type="datetime-local" id="editStart" name="start" required
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Koniec (opcjonalny)</label>
                         <input type="datetime-local" id="editEnd" name="end"
-                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Notatka (opcjonalnie)</label>
                     <textarea id="editNotes" name="notes" rows="3"
-                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Dodaj notatki do tej lekcji..."></textarea>
                 </div>
 
                 <div class="flex gap-2 pt-4 border-t">
                     <button type="submit"
-                        class="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-medium">
+                        class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium">
                         Zapisz
                     </button>
                     <button type="button" id="cancelEditBtn"

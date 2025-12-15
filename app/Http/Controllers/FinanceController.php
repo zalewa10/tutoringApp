@@ -17,17 +17,16 @@ class FinanceController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $totalPaid = $payments->where('status', 'paid')->sum(fn($p) => (float) $p->amount);
-        $totalAwaiting = $payments->where('status', 'awaiting')->sum(fn($p) => (float) $p->amount);
-        $totalOverdue = $payments->where('status', 'overdue')->sum(fn($p) => (float) $p->amount);
+        $totalPaid = $payments->where('status', 'zapłacone')->sum(fn($p) => (float) $p->amount);
+        $totalAwaiting = $payments->where('status', 'oczekuje')->sum(fn($p) => (float) $p->amount);
         $totalLessons = Lesson::where('user_id', $userId)->count();
-        $unpaidCount = $payments->where('status', '!=', 'paid')->count();
+        $unpaidCount = $payments->where('status', '!=', 'zapłacone')->count();
 
         return view('dashboard.finance', compact(
             'payments',
             'totalPaid',
             'totalAwaiting',
-            'totalOverdue',
+            
             'totalLessons',
             'unpaidCount'
         ));

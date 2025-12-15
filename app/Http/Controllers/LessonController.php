@@ -35,7 +35,7 @@ class LessonController extends Controller
         $lesson->payment()->create([
             'user_id' => auth()->id(),
             'amount' => $student->rate,
-            'status' => 'awaiting',
+            'status' => 'oczekuje',
             'notes' => null,
         ]);
 
@@ -98,7 +98,7 @@ class LessonController extends Controller
         $lesson->payment()->create([
             'user_id' => auth()->id(),
             'amount' => $student->rate,
-            'status' => 'awaiting',
+            'status' => 'oczekuje',
             'notes' => null,
         ]);
 

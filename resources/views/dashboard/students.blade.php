@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="h-14 p-4 bg-white border-b border-gray-200 flex items-center justify-between">
+    <div class="h-16 p-4 bg-white border-b border-gray-200 flex items-center justify-between">
         <h1>Lista wszystkich uczniów</h1>
         <a href="{{ route('dashboard.create') }}" class="px-3 py-2 btn btn-primary">Nowy
             uczeń</a>
@@ -21,7 +21,7 @@
                             <td class="px-6 py-4 text-gray-800">{{ $student->name }} {{ $student->surname }}</td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">{{ $student->rate }}
+                                    class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm dark:bg-gray-700 dark:text-gray-200">{{ $student->rate }}
                                     PLN/h</span>
                             </td>
                             <td> <span

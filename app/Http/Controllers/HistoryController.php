@@ -29,6 +29,11 @@ class HistoryController extends Controller
 
         $lessons = $lessons->sortByDesc('start')->values();
 
-        return view('dashboard.history', compact('lessons'));
+        // Calculate financial summaries
+        $payments = $lessons->pluck('payment')->filter();
+        $totalPaid = $payments->where('status', 'zapłacone')->sum(fn($p) => (float) $p->amount);
+        $totalAwaiting = $payments->where('status', 'oczekuje')->sum(fn($p) => (float) $p->amount);
+
+        return view('dashboard.history', compact('lessons', 'totalPaid', 'totalAwaiting'));
     }
 }

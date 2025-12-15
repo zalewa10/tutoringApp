@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('lesson_id')->nullable()->constrained('lessons')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2)->default(0);
-            $table->string('status')->default('awaiting'); // awaiting, paid, overdue
+            $table->string('status')->default('oczekuje'); // awaiting, paid, overdue
             $table->timestamp('paid_at')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();

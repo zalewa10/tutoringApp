@@ -1,10 +1,17 @@
 <style>
     .sidebar {
         background: white;
+        color: black;
         min-height: 100svh;
         width: 200px !important;
+        transition: background-color 0.2s, color 0.2s;
     }
 
+    html.dark .sidebar {
+        background: #1f2937;
+        color: white;
+        border-color: #374151;
+    }
 
     .sidebar-label {
         transition: opacity 0.2s;
@@ -12,8 +19,8 @@
         white-space: nowrap;
         margin-left: 8px;
         font-size: 15px;
+        color: inherit;
     }
-
 
     .sidebar .sidebar-label {
         opacity: 1;
@@ -26,14 +33,21 @@
         padding: 0.75rem 1rem;
         border-radius: 0.5rem;
         font-weight: 500;
-        transition: background 0.15s;
+        transition: background 0.15s, color 0.15s;
         text-decoration: none;
+        color: inherit;
     }
 
     .sidebar-nav-link:hover,
     .sidebar-nav-link.active {
         background: #27272a;
         color: #fff;
+    }
+
+    html.dark .sidebar-nav-link:hover,
+    html.dark .sidebar-nav-link.active {
+        background: #2563eb;
+        color: white;
     }
 
     .sidebar-nav-link .icon {
@@ -47,10 +61,20 @@
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        border-color: inherit;
+    }
+
+    html.dark .sidebar-header {
+        border-color: #374151;
     }
 
     .sidebar-footer {
         margin-top: auto;
+        border-color: inherit;
+    }
+
+    html.dark .sidebar-footer {
+        border-color: #374151;
     }
 
     .sidebar .sidebar-nav-link {
@@ -66,44 +90,45 @@
 
 <aside id="sidebar"
     class="sidebar border-r border-gray-200 sidebar-collapsed fixed left-0 top-0 bottom-0 z-40 flex flex-col transition-all duration-300">
-    <div class="sidebar-header h-14 border-b border-gray-200">
-        <a href="{{ route('dashboard.index') }}" class="sidebar-label font-bold text-xl text-black">TutorApp</a>
+    <div class="sidebar-header h-16 border-b border-gray-200">
+        <a href="{{ route('dashboard.index') }}" class="sidebar-label font-bold text-xl ">TutorApp</a>
     </div>
     <nav class="flex flex-col gap-1 p-4 ">
 
         @auth
             <a href="{{ route('dashboard.index') }}" class="sidebar-nav-link @if (request()->routeIs('dashboard.index')) active @endif">
-                <span class="icon"><i class="fas fa-home"></i></span>
-                Kalendarz</a>
-            <a href="{{ route('students.index') }}"
-                class="sidebar-nav-link @if (request()->routeIs('students.index')) active @endif"> <span class="icon"><i
-                        class="fas fa-home"></i></span>
-                Uczniowie</a>
-            <a href="{{ route('finance.index') }}" class="sidebar-nav-link @if (request()->routeIs('finance.index')) active @endif">
-                <span class="icon"><i class="fas fa-home"></i></span>
-                Finanse</a>
+                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                <span class="sidebar-label">Kalendarz</span>
+            </a>
+            <a href="{{ route('students.index') }}" class="sidebar-nav-link @if (request()->routeIs('students.index')) active @endif">
+                <span class="icon"><i class="fas fa-users"></i></span>
+                <span class="sidebar-label">Uczniowie</span>
+            </a>
             <a href="{{ route('history.index') }}" class="sidebar-nav-link @if (request()->routeIs('history.index')) active @endif">
-                <span class="icon"><i class="fas fa-home"></i></span>
-                Historia</a>
+                <span class="icon"><i class="fas fa-history"></i></span>
+                <span class="sidebar-label">Historia</span>
+            </a>
         @else
-            <a href="{{ route('show.login') }}" class="sidebar-nav-link"> <span class="icon"><i
-                        class="fas fa-home"></i></span>
-                Logowanie</a>
-            <a href="{{ route('show.register') }}" class="sidebar-nav-link"> <span class="icon"><i
-                        class="fas fa-home"></i></span>
-                Rejestracja</a>
+            <a href="{{ route('show.login') }}" class="sidebar-nav-link">
+                <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                <span class="sidebar-label">Logowanie</span>
+            </a>
+            <a href="{{ route('show.register') }}" class="sidebar-nav-link">
+                <span class="icon"><i class="fas fa-user-plus"></i></span>
+                <span class="sidebar-label">Rejestracja</span>
+            </a>
         @endauth
     </nav>
     <div class="sidebar-footer p-4 border-t border-gray-200">
         @auth
-
-            <div class="text-lg ">{{ auth()->user()->name }}</div>
-            {{-- <form action="{{ route('logout') }}" method="POST" class="inline">
-                @csrf
-                <button class="">x</button>
-            </form> --}}
-
+            <div class="mb-4">
+                <div class="text-lg">Witaj, {{ auth()->user()->name }}</div>
+            </div>
+            <div class="theme-switcher">
+                <button id="themeLight" class="light-btn" title="Jasny motyw">☀️</button>
+                <button id="themeDark" class="dark-btn" title="Ciemny motyw">🌙</button>
+            </div>
         @endauth
-
     </div>
+
 </aside>
