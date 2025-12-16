@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->string('status')->default('oczekuje');
+            if (!Schema::hasColumn('payments', 'status')) {
+                $table->string('status')->default('oczekuje');
+            }
         });
     }
 

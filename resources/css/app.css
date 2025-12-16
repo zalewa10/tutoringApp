@@ -389,9 +389,10 @@ html.dark [class*="bg-white rounded"] {
 }
 
 html.dark [class*="bg-blue-50"] {
-    @apply bg-blue-900 ;
+    @apply bg-blue-900;
 }
-* Icon styles */
+
+/* Icon styles */
 .sidebar-nav-link .icon {
     color: inherit;
 }

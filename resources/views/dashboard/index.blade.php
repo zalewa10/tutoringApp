@@ -382,10 +382,10 @@
                 // create calendar
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     locale: 'pl',
-                    //   plugins: [
-                    //     FullCalendar.dayGridPlugin,
-                    //     FullCalendar.interactionPlugin
-                    //   ],
+                    plugins: [
+                        FullCalendar.dayGridPlugin,
+                        FullCalendar.interactionPlugin,
+                    ],
                     initialView: 'dayGridMonth',
                     events: window.events,
                     editable: true,
