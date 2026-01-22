@@ -189,7 +189,207 @@ textarea {
 }
 
 
+/* Dark mode styles for calendar */
+        html.dark .h-16.bg-white {
+            background: #1f2937;
+            border-color: #374151;
+        }
 
+        html.dark .h-16 h1 {
+            color: white;
+        }
+
+        html.dark .bg-gray-50 {
+            background: #111827;
+        }
+
+        html.dark .bg-white.rounded-lg {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        /* FullCalendar dark mode */
+        html.dark .fc {
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
+        html.dark .fc .fc-toolbar-title {
+            color: white;
+        }
+
+        html.dark .fc .fc-button {
+            background: #374151;
+            border-color: #4b5563;
+            color: white;
+        }
+
+        html.dark .fc .fc-button:hover {
+            background: #4b5563;
+            border-color: #6b7280;
+        }
+
+        html.dark .fc .fc-button-active {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        html.dark .fc-theme-standard td,
+        html.dark .fc-theme-standard th {
+            border-color: #374151;
+        }
+
+        html.dark .fc-theme-standard .fc-scrollgrid {
+            border-color: #374151;
+        }
+
+        html.dark .fc .fc-daygrid-day-number {
+            color: #d1d5db;
+        }
+
+        html.dark .fc .fc-col-header-cell-cushion {
+            color: #9ca3af;
+        }
+
+        html.dark .fc .fc-daygrid-day.fc-day-today {
+            background: #1e3a5f !important;
+        }
+
+        html.dark .fc-event {
+            border-color: inherit;
+        }
+
+        html.dark .fc-event .fc-event-title,
+        html.dark .fc-event .fc-event-time {
+            color: #0f172a;
+        }
+         .sidebar {
+        background: white;
+        color: black;
+        min-height: 100svh;
+        width: 200px !important;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    html.dark .sidebar {
+        background: #1f2937;
+        color: white;
+        border-color: #374151;
+    }
+
+    .sidebar-label {
+        transition: opacity 0.2s;
+        opacity: 1;
+        white-space: nowrap;
+        margin-left: 8px;
+        font-size: 15px;
+        color: inherit;
+    }
+
+    .sidebar .sidebar-label {
+        opacity: 1;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background 0.15s, color 0.15s;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .sidebar-nav-link:hover,
+    .sidebar-nav-link.active {
+        background: #27272a;
+        color: #fff;
+    }
+
+    html.dark .sidebar-nav-link:hover,
+    html.dark .sidebar-nav-link.active {
+        background: #2563eb;
+        color: white;
+    }
+
+    .sidebar-nav-link .icon {
+        font-size: 1.25rem;
+        min-width: 24px;
+        text-align: center;
+    }
+
+    .sidebar-header {
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-color: inherit;
+    }
+
+    html.dark .sidebar-header {
+        border-color: #374151;
+    }
+
+    .sidebar-footer {
+        margin-top: auto;
+        border-color: inherit;
+    }
+
+    html.dark .sidebar-footer {
+        border-color: #374151;
+    }
+
+    .sidebar .sidebar-nav-link {
+        position: relative;
+    }
+
+    .sidebar-nav-link.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    .theme-toggle-btn {
+        background: #e5e7eb;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .theme-toggle-btn:hover {
+        background: #d1d5db;
+    }
+
+    html.dark .theme-toggle-btn {
+        background: #374151;
+    }
+
+    html.dark .theme-toggle-btn:hover {
+        background: #4b5563;
+    }
+
+    .theme-toggle-btn .light-icon {
+        display: inline;
+    }
+
+    .theme-toggle-btn .dark-icon {
+        display: none;
+    }
+
+    html.dark .theme-toggle-btn .light-icon {
+        display: none;
+    }
+
+    html.dark .theme-toggle-btn .dark-icon {
+        display: inline;
+    }
 
 .fc .fc-toolbar-title {
     font-size: 1.5rem;

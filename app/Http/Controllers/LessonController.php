@@ -118,6 +118,7 @@ class LessonController extends Controller
     public function ajaxUpdate(Request $request, $id)
     {
         $validated = $request->validate([
+            'student_id' => 'nullable|exists:students,id',
             'title' => 'nullable|string|max:255',
             'start' => 'required|date',
             'end' => 'nullable|date|after_or_equal:start',
@@ -126,23 +127,37 @@ class LessonController extends Controller
 
         $lesson = Lesson::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
+        // If student_id is sent, ensure it belongs to the current user; otherwise keep the current one.
+        $studentId = $validated['student_id'] ?? $lesson->student_id;
+        $student = Student::where('id', $studentId)->where('user_id', auth()->id())->firstOrFail();
+
         $start = $this->normalizeToAppTimezone($validated['start']);
         $end = $this->normalizeToAppTimezone($validated['end'] ?? null);
 
+        $originalStudentId = $lesson->student_id;
+
         $lesson->update([
+            'student_id' => $student->id,
             'title' => $validated['title'] ?? $lesson->title,
             'start' => $start,
             'end' => $end,
             'notes' => $validated['notes'] ?? $lesson->notes,
         ]);
 
+        // Keep payment amount in sync with the selected student's rate if student changed.
+        if ($lesson->payment && $originalStudentId !== $student->id) {
+            $lesson->payment->update(['amount' => $student->rate]);
+        }
+
         return response()->json([
             'success' => true,
             'lesson' => [
                 'id' => $lesson->id,
+                'student_id' => $lesson->student_id,
                 'title' => $lesson->title,
                 'start' => $lesson->start ? $lesson->start->format('Y-m-d H:i:s') : null,
                 'end' => $lesson->end ? $lesson->end->format('Y-m-d H:i:s') : null,
+                'notes' => $lesson->notes,
             ],
         ]);
     }

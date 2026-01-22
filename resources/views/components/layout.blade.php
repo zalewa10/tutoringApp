@@ -23,24 +23,20 @@
         // Theme Switcher - interactive part
         document.addEventListener('DOMContentLoaded', function() {
             const html = document.documentElement;
-            const themeLight = document.getElementById('themeLight');
-            const themeDark = document.getElementById('themeDark');
+            const themeToggle = document.getElementById('themeToggle');
             
-            function setTheme(theme) {
-                if (theme === 'dark') {
-                    html.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
+            function toggleTheme() {
+                if (html.classList.contains('dark')) {
                     html.classList.remove('dark');
                     localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
                 }
             }
             
-            if (themeLight) {
-                themeLight.addEventListener('click', () => setTheme('light'));
-            }
-            if (themeDark) {
-                themeDark.addEventListener('click', () => setTheme('dark'));
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
             }
         });
     </script>

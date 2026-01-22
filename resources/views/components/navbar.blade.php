@@ -1,91 +1,3 @@
-<style>
-    .sidebar {
-        background: white;
-        color: black;
-        min-height: 100svh;
-        width: 200px !important;
-        transition: background-color 0.2s, color 0.2s;
-    }
-
-    html.dark .sidebar {
-        background: #1f2937;
-        color: white;
-        border-color: #374151;
-    }
-
-    .sidebar-label {
-        transition: opacity 0.2s;
-        opacity: 1;
-        white-space: nowrap;
-        margin-left: 8px;
-        font-size: 15px;
-        color: inherit;
-    }
-
-    .sidebar .sidebar-label {
-        opacity: 1;
-    }
-
-    .sidebar-nav-link {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        transition: background 0.15s, color 0.15s;
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .sidebar-nav-link:hover,
-    .sidebar-nav-link.active {
-        background: #27272a;
-        color: #fff;
-    }
-
-    html.dark .sidebar-nav-link:hover,
-    html.dark .sidebar-nav-link.active {
-        background: #2563eb;
-        color: white;
-    }
-
-    .sidebar-nav-link .icon {
-        font-size: 1.25rem;
-        min-width: 24px;
-        text-align: center;
-    }
-
-    .sidebar-header {
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border-color: inherit;
-    }
-
-    html.dark .sidebar-header {
-        border-color: #374151;
-    }
-
-    .sidebar-footer {
-        margin-top: auto;
-        border-color: inherit;
-    }
-
-    html.dark .sidebar-footer {
-        border-color: #374151;
-    }
-
-    .sidebar .sidebar-nav-link {
-        position: relative;
-    }
-
-    .sidebar-nav-link.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-    }
-</style>
 
 
 <aside id="sidebar"
@@ -121,13 +33,14 @@
     </nav>
     <div class="sidebar-footer p-4 border-t border-gray-200">
         @auth
-            <div class="mb-4">
+            <div class="mb-4 flex items-center justify-between">
                 <div class="text-lg">Witaj, {{ auth()->user()->name }}</div>
+                  <button id="themeToggle" class="theme-toggle-btn" title="Przełącz motyw">
+                    <span class="light-icon">☀️</span>
+                    <span class="dark-icon">🌙</span>
+                </button>
             </div>
-            <div class="theme-switcher">
-                <button id="themeLight" class="light-btn" title="Jasny motyw">☀️</button>
-                <button id="themeDark" class="dark-btn" title="Ciemny motyw">🌙</button>
-            </div>
+           
         @endauth
     </div>
 

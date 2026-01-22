@@ -200,31 +200,32 @@
                 }
 
                 // resources & events (globalne dla debugowania)
-                window.resources = [
-                    @foreach ($allStudents ?? collect() as $s)
-                        {
-                            id: "{{ $s->id }}",
-                            title: "{{ addslashes(trim(($s->name ?? '') . ' ' . ($s->surname ?? '')) ?: 'Uczestnik') }}",
-                            color: "{{ $s->color ?? '#ef4444' }}"
-                        },
-                    @endforeach
-                ];
+                @php
+                    $resources = ($allStudents ?? collect())->map(function ($s) {
+                        return [
+                            'id' => (string) $s->id,
+                            'title' => trim(($s->name ?? '') . ' ' . ($s->surname ?? '')) ?: 'Uczestnik',
+                            'color' => $s->color ?? '#ef4444',
+                        ];
+                    })->values()->all();
 
-                // IMPORTANT: convert "YYYY-MM-DD HH:MM:SS" -> "YYYY-MM-DDTHH:MM:SS"
-                window.events = [
-                    @foreach ($lessons ?? collect() as $lesson)
-                        {
-                            id: "{{ $lesson->id }}",
-                            resourceId: "{{ $lesson->student_id }}",
-                            title: "{{ addslashes(trim(optional($lesson->student)->name . ' ' . optional($lesson->student)->surname) ?: 'Lekcja') }}",
-                            start: "{{ str_replace(' ', 'T', $lesson->start) }}",
-                            end: "{{ $lesson->end ? str_replace(' ', 'T', $lesson->end) : '' }}",
-                            notes: "{{ addslashes($lesson->notes ?? '') }}",
-                            backgroundColor: "{{ optional($lesson->student)->color ?? '#ef4444' }}",
-                            borderColor: "{{ optional($lesson->student)->color ?? '#ef4444' }}"
-                        },
-                    @endforeach
-                ];
+                    $events = ($lessons ?? collect())->map(function ($lesson) {
+                        return [
+                            'id' => (string) $lesson->id,
+                            'resourceId' => (string) $lesson->student_id,
+                            'title' => $lesson->title ?? 'Lekcja',
+                            'studentName' => trim(optional($lesson->student)->name . ' ' . optional($lesson->student)->surname) ?: 'Uczeń',
+                            'start' => str_replace(' ', 'T', (string) $lesson->start),
+                            'end' => $lesson->end ? str_replace(' ', 'T', (string) $lesson->end) : '',
+                            'notes' => $lesson->notes ?? '',
+                            'backgroundColor' => optional($lesson->student)->color ?? '#ef4444',
+                            'borderColor' => optional($lesson->student)->color ?? '#ef4444',
+                        ];
+                    })->values()->all();
+                @endphp
+
+                window.resources = @json($resources);
+                window.events = @json($events);
 
                 function formatLocalInput(dt) {
                     if (!dt) return null;
@@ -264,6 +265,8 @@
                 const cancelEditBtn = document.getElementById('cancelEditBtn');
                 const lessonEditForm = document.getElementById('lessonEditForm');
                 let currentLessonId = null;
+                let currentLessonData = null;
+                let calendar = null;
 
                 function openModal() {
                     if (lessonModal) {
@@ -330,7 +333,7 @@
                         if (!currentLessonId) return;
                         if (!confirm('Czy na pewno chcesz usunąć tę lekcję?')) return;
 
-                        fetch(`/lessons/${currentLessonId}`, {
+                        fetch(`/lessons/${currentLessonId}/ajax`, {
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': token,
@@ -338,8 +341,10 @@
                             }
                         }).then(r => {
                             if (r.ok) {
+                                const ev = calendar ? calendar.getEventById(String(currentLessonId)) : null;
+                                if (ev) ev.remove();
                                 closePreviewModal();
-                                location.reload();
+                                if (!ev) location.reload();
                             } else {
                                 alert('Błąd przy usuwaniu lekcji');
                             }
@@ -358,7 +363,7 @@
                         const formData = new FormData(this);
                         const data = Object.fromEntries(formData);
 
-                        fetch(`/lessons/${currentLessonId}`, {
+                        fetch(`/lessons/${currentLessonId}/ajax`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -380,7 +385,7 @@
                 }
 
                 // create calendar
-                var calendar = new FullCalendar.Calendar(calendarEl, {
+                calendar = new FullCalendar.Calendar(calendarEl, {
                     locale: 'pl',
                     plugins: [
                         FullCalendar.dayGridPlugin,
@@ -486,15 +491,16 @@
                     const lessonData = window.events.find(e => e.id === event.id);
                     if (!lessonData) return;
 
-                    currentLessonId = event.id;
+                    currentLessonData = lessonData;
+                    currentLessonId = lessonData.id || event.id;
 
                     // Update preview modal content
-                    document.getElementById('previewTitle').textContent = event.title || 'Lekcja';
+                    document.getElementById('previewTitle').textContent = lessonData.title || 'Lekcja';
 
                     // Find student name
                     const student = window.resources.find(r => r.id === lessonData.resourceId);
-                    document.getElementById('previewStudent').textContent = student ?
-                        `Uczeń: ${student.title}` : 'Uczeń: —';
+                    const studentName = lessonData.studentName || (student ? student.title : '—');
+                    document.getElementById('previewStudent').textContent = `Uczeń: ${studentName}`;
 
                     // Format dates
                     const startDate = new Date(lessonData.start);
@@ -513,7 +519,7 @@
 
                     // Populate edit form fields
                     document.getElementById('editStudentSelect').value = lessonData.resourceId;
-                    document.getElementById('editTitle').value = event.title || '';
+                    document.getElementById('editTitle').value = lessonData.title || '';
 
                     // Convert dates to datetime-local format
                     const formatForInput = (dateStr) => {
